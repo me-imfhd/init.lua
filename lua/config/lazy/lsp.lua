@@ -58,6 +58,15 @@ return {
 
 			local servers = {
 				bashls = true,
+				-- sqls: keyword/schema completion + hover. Formatting is conform (sql_formatter).
+				-- Installed as a prebuilt binary (~/.local/bin/sqls); mason would need CGO to compile it.
+				sqls = {
+					manual_install = true,
+					server_capabilities = {
+						documentFormattingProvider = false,
+						documentRangeFormattingProvider = false,
+					},
+				},
 				gopls = {
 					manual_install = true,
 					settings = {
@@ -192,11 +201,25 @@ return {
 				-- },
 
 				clangd = {
-					-- cmd = { "clangd", unpack(require("custom.clangd").flags) },
-					-- TODO: Could include cmd, but not sure those were all relevant flags.
-					--    looks like something i would have added while i was floundering
-					init_options = { clangdFileStatus = true },
-
+					cmd = {
+						"clangd",
+						"--background-index",
+						"--clang-tidy",
+						"--header-insertion=iwyu",
+						"--header-insertion-decorators",
+						"--all-scopes-completion",
+						"--completion-style=detailed",
+						"--function-arg-placeholders",
+						"--pch-storage=memory",
+						"--query-driver=/usr/bin/gcc,/usr/bin/cc,/usr/bin/clang,/usr/bin/clang++",
+					},
+					init_options = {
+						clangdFileStatus = true,
+						fallbackFlags = { "-std=c17", "-pthread", "-D_GNU_SOURCE" },
+					},
+					capabilities = {
+						offsetEncoding = { "utf-8" },
+					},
 					filetypes = { "c" },
 				},
 
@@ -251,6 +274,7 @@ return {
 			local ensure_installed = {
 				"stylua",
 				"lua_ls",
+				"sql-formatter",
 				-- "tailwind-language-server",
 			}
 

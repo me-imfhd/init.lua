@@ -17,6 +17,7 @@ return {
 				javascript = { "prettier" },
 				typescript = { "prettier" },
 				elixir = { "mix" },
+				sql = { "sql_formatter" },
 			},
 			formatters = {
 				["clang-format"] = {

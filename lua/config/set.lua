@@ -1,4 +1,7 @@
 -- OPTIONS
+-- Treat *.h as C so clangd attaches (Neovim defaults *.h to C++).
+vim.g.c_syntax_for_h = true
+
 local set = vim.opt
 
 --line nums

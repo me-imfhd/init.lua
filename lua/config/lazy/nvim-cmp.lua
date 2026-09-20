@@ -39,6 +39,8 @@ return { -- Autocompletion
     local cmp = require('cmp')
     local luasnip = require('luasnip')
     luasnip.config.setup({})
+    require('snippets.c')
+    cmp.register_source('c_headers', require('config.c_headers').new())
 
     cmp.setup({
       snippet = {
@@ -47,6 +49,14 @@ return { -- Autocompletion
         end,
       },
       completion = { completeopt = 'menu,menuone,noinsert' },
+      formatting = {
+        format = function(entry, vim_item)
+          if entry.source.name == 'c_headers' then
+            vim_item.menu = entry.completion_item.detail
+          end
+          return vim_item
+        end,
+      },
 
       -- For an understanding of why these mappings were
       -- chosen, you will need to read `:help ins-completion`
@@ -107,6 +117,7 @@ return { -- Autocompletion
           group_index = 0,
         },
         { name = 'nvim_lsp' },
+        { name = 'c_headers', keyword_length = 2 },
         { name = 'luasnip' },
         { name = 'path' },
       },
