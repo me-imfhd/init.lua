@@ -1,5 +1,5 @@
 return {
-	dir = "/home/meimfhd/dev/opencode-watcher",
+	"me-imfhd/opencode-watcher",
 	name = "opencode-watcher",
 	lazy = false,
 	priority = 100,

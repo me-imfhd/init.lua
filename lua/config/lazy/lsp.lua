@@ -187,7 +187,7 @@ return {
 				},
 
 				elixirls = {
-					cmd = { "/home/tjdevries/.local/share/nvim/mason/bin/elixir-ls" },
+					cmd = { vim.fn.stdpath("data") .. "/mason/bin/elixir-ls" },
 					root_markers = { "mix.exs" },
 				},
 

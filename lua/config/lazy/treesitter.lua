@@ -34,6 +34,36 @@ return {
 				node_decremental = "<A-v>",
 			},
 		},
+		-- nvim-treesitter's `main` branch (pinned in lazy-lock.json) does not
+		-- enable highlighting from `opts`; install parsers and start it here.
+		config = function()
+			local langs = {
+				"bash",
+				"c",
+				"diff",
+				"html",
+				"lua",
+				"luadoc",
+				"markdown",
+				"markdown_inline",
+				"query",
+				"vim",
+				"vimdoc",
+				"rust",
+				"sql",
+			}
+			require("nvim-treesitter").install(langs)
+			vim.api.nvim_create_autocmd("FileType", {
+				callback = function(args)
+					pcall(vim.treesitter.start, args.buf)
+				end,
+			})
+			for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+				if vim.api.nvim_buf_is_loaded(buf) then
+					pcall(vim.treesitter.start, buf)
+				end
+			end
+		end,
 		-- There are additional nvim-treesitter modules that you can use to interact
 		-- with nvim-treesitter. You should go explore a few and see what interests you:
 		--
